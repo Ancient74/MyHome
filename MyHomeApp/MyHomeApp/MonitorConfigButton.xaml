@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView x:Name="view" xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyHomeApp"
+             x:Class="MyHomeApp.MonitorConfigButton">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:ColorToSolidColorBrushConverter x:Key="colorToSolidColorBrushConverter"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
+  <ContentView.Content>
+        <Grid VerticalOptions="Fill" HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackLayout Grid.Column="0" >
+                <Button 
+                    x:Name="modeButton"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    ImageSource="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=ImageSource}" 
+                    Text="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=Text}" 
+                    Command="{Binding SelectMonitorModeCommand}"/>
+            </StackLayout>
+            <Grid Grid.Column="1" Padding="0,0,20,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ImageButton Grid.Column="0" BackgroundColor="Transparent" WidthRequest="48" HeightRequest="48" Source="steam.bmp" Command="{Binding ToggleOpenBigPictureCommand}">
+                    <ImageButton.Style>
+                        <Style TargetType="ImageButton">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="ImageButton" Binding="{Binding OpenBigPicture}" Value="false">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ImageButton.Style>
+                </ImageButton>
+            </Grid>
+        </Grid>
+  </ContentView.Content>
+</ContentView>

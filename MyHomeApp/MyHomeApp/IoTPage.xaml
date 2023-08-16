@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyHomeApp.ViewModels"
+             x:Class="MyHomeApp.IoTPage"
+             x:Name="IotPage">
+    <NavigationPage.TitleView>
+        <Label Text="IoT" HorizontalTextAlignment="Center" TextColor="White" FontSize="24"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid Padding="0,20,0,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Start" Text="IoT devices"/>
+            <CollectionView Grid.Row="1" ItemsSource="{Binding Devices}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="20,0,20,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Text="{Binding Name}" Command="{Binding Path=BindingContext.OpenIoTDeviceCommand, Source={x:Reference IotPage}}" CommandParameter="{Binding}" HorizontalOptions="Fill"/>
+                            <ImageButton Grid.Column="1" BackgroundColor="Transparent" Margin="20,0,20,0" Source="edit_icon.bmp" Command="{Binding Path=BindingContext.EditIoTDeviceCommand, Source={x:Reference IotPage}}" CommandParameter="{Binding}"/>
+                            <ImageButton Grid.Column="2" BackgroundColor="Transparent" Source="delete_icon.bmp" Command="{Binding Path=BindingContext.DeleteIoTDeviceCommand, Source={x:Reference IotPage}}" CommandParameter="{Binding}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Grid.Row="2" VerticalOptions="End" Text="Add IoT Device" Command="{Binding AddIoTDeviceCommand}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localVm="clr-namespace:MyHomeApp.ViewModels"
+             xmlns:local="clr-namespace:MyHomeApp"
+             x:Class="MyHomeApp.IoTDevicePage">
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Name}" HorizontalTextAlignment="Center" TextColor="White" FontSize="24"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="Slider">
+                <local:SliderCapabilityView BindingContext="{TemplateBinding Path=BindingContext}"/>
+            </ControlTemplate>
+            <ControlTemplate x:Key="ToggleButton">
+                <local:ToggleButtonCapabilityView BindingContext="{TemplateBinding Path=BindingContext}"/>
+            </ControlTemplate>
+            <local:CapabilityToViewConverter 
+                SliderTemplate="{StaticResource Slider}" 
+                ToggleButtonTemplate="{StaticResource ToggleButton}" 
+                x:Key="converter"/>
+            <ControlTemplate x:Key="HasCapabilities">
+                <StackLayout VerticalOptions="Fill">
+                    <Label Text="Device capabilities" HorizontalOptions="Center" FontSize="20" Padding="0,20,0,0"/>
+                    <RefreshView IsRefreshing="{TemplateBinding Path=BindingContext.Loading}" Command="{TemplateBinding Path=BindingContext.ReloadCommand}" Padding="20">
+                        <CollectionView ItemsSource="{TemplateBinding Path=BindingContext.Capabilities}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout BackgroundColor="#F0F0F0" Padding="20">
+                                        <Label Text="{Binding Name}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                        <Label Text="{Binding Description}" />
+                                        <ContentView ControlTemplate="{Binding ., Converter={StaticResource converter}}" />
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                            </CollectionView.ItemsLayout>
+                        </CollectionView>
+                    </RefreshView>
+                </StackLayout>
+            </ControlTemplate>
+            <ControlTemplate x:Key="HasNoCapabilities">
+                <RefreshView IsRefreshing="{TemplateBinding Path=BindingContext.Loading}" Command="{TemplateBinding Path=BindingContext.ReloadCommand}" Padding="20">
+                    <ScrollView>
+                        <StackLayout VerticalOptions="Center">
+                            <Label Text="Capabilities has not been found" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </ScrollView>
+                </RefreshView>
+            </ControlTemplate>
+            <ControlTemplate x:Key="NotReachable">
+                <RefreshView IsRefreshing="{TemplateBinding Path=BindingContext.Loading}" Command="{TemplateBinding Path=BindingContext.ReloadCommand}" Padding="20">
+                    <ScrollView>
+                        <StackLayout VerticalOptions="Center">
+                            <Label Text="Device is not reachable" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </ScrollView>
+                </RefreshView>
+            </ControlTemplate>
+            <ControlTemplate x:Key="Initializing">
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <ActivityIndicator IsRunning="true" />
+                </StackLayout>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ContentView>
+            <ContentView.Style>
+                <Style TargetType="ContentView">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="ContentView" Binding="{Binding Status}" Value="{x:Static localVm:IoTDeviceViewModelStatus.NotInitialized}">
+                            <Setter Property="ControlTemplate" Value="{StaticResource Initializing}"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="ContentView" Binding="{Binding Status}" Value="{x:Static localVm:IoTDeviceViewModelStatus.Empty}">
+                            <Setter Property="ControlTemplate" Value="{StaticResource HasNoCapabilities}"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="ContentView" Binding="{Binding Status}" Value="{x:Static localVm:IoTDeviceViewModelStatus.Normal}">
+                            <Setter Property="ControlTemplate" Value="{StaticResource HasCapabilities}"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="ContentView" Binding="{Binding Status}" Value="{x:Static localVm:IoTDeviceViewModelStatus.NotReachable}">
+                            <Setter Property="ControlTemplate" Value="{StaticResource NotReachable}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentView.Style>
+        </ContentView>
+    </ContentPage.Content>
+</ContentPage>

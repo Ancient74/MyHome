@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyHomeApp"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="MyHomeApp.MonitorConfigPage">
+    <NavigationPage.TitleView>
+        <Label Text="Select monitor mode" HorizontalTextAlignment="Center" TextColor="White" FontSize="24"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <RefreshView IsRefreshing="{Binding IsLoading, Mode=OneWay}" Margin="20,0,20,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="1">
+                    <local:MonitorConfigButton ImageSource="main.bmp" Text="PC screen only" BindingContext="{Binding PCScreenOnlyViewModel}"/>
+                    <local:MonitorConfigButton ImageSource="clone.bmp" Text="Duplicate" BindingContext="{Binding DuplicateViewModel}"/>
+                    <local:MonitorConfigButton ImageSource="extend.bmp" Text="Extend" BindingContext="{Binding ExtendViewModel}"/>
+                    <local:MonitorConfigButton ImageSource="second.bmp" Text="Second screen only" BindingContext="{Binding SecondScreenOnlyViewModel}"/>
+                </StackLayout>
+            </Grid>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>

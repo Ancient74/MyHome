@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyHomeApp.ViewModels"
+             x:Class="MyHomeApp.AudioDeviceSelectView">
+  <ContentView.Content>
+        <StackLayout>
+                <Frame>
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding SelectState}" Value="{x:Static local:SelectState.Active}">
+                                    <Setter Property="BackgroundColor" Value="#a5b1c2"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding SelectState}" Value="{x:Static local:SelectState.Selected}">
+                                    <Setter Property="BackgroundColor" Value="#d1d8e0"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                    <Label Text="{Binding Name}" FontSize="14" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
+                </Frame>
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>

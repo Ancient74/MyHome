@@ -1,0 +1,111 @@
+﻿// MyHomeApi.idl: источник языка IDL для MyHomeApi
+//
+
+// Этот файл будет обработан средством MIDL для
+// создание библиотеки типов ($handlersafeidlname$.tlb) и кода маршалирования.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+enum MyMonitorMode
+{
+	MonitorMode_PCScreenOnly = 1,
+	MonitorMode_SecondScreenOnly,
+	MonitorMode_Extend,
+	MonitorMode_Duplicate,
+};
+
+[
+	uuid(F8496734-AEFA-4D42-A9D2-6556E7CFA014)
+]
+interface IMonitorManager : IUnknown
+{
+	HRESULT SetMonitorMode([in] enum MyMonitorMode monitorMode);
+	HRESULT OpenBigPicture();
+};
+
+enum MyShutdownMode
+{
+	ShutdownMode_NormalShutdown = 1,
+	ShutdownMode_ForceShutdown,
+	ShutdownMode_NormalRestart,
+	ShutdownMode_ForceRestart
+};
+
+[
+	uuid(8883768D-CB2F-4E5D-9A5C-E050DEA40F38)
+]
+interface IDesktopManager : IUnknown
+{
+	HRESULT Shutdown([in] enum MyShutdownMode shutdownMode);
+	HRESULT OpenInBrowser([in] BSTR link);
+};
+
+[
+	uuid(3E74EDCA-C537-436B-B347-79475CF61808)
+]
+interface IClientFilter : IUnknown
+{
+	HRESULT IsClientAllowed([in] BSTR ipAddress, [out, retval] BOOL* isAllowed);
+};
+
+[
+	uuid(BF959E88-8632-4C45-8A38-7865AD963DF4)
+]
+interface IAudioDevice : IUnknown
+{
+	HRESULT GetName([out, retval] BSTR* name);
+	HRESULT GetId([out, retval] BSTR* deviceId);
+
+	HRESULT ToggleMute();
+	HRESULT IsMuted([out, retval] BOOL* isMuted);
+
+	[helpstring("Returns device's volume in range from 0 to 1")]
+	HRESULT GetVolumeLevel([out, retval] float* volumeLevel);
+
+	[helpstring("Expects device's volume in range from 0 to 1")]
+	HRESULT SetVolumeLevel([in] float volumeLevel);
+};
+
+[
+	uuid(A7A6D0EE-897B-4C34-9DF7-34EB803734B0)
+]
+interface IAudioController : IUnknown
+{
+	HRESULT EnumerateAudioDevices([out, retval] SAFEARRAY(VARIANT)* audioDevice);
+	
+	HRESULT GetAudioDevice([in] BSTR deviceId, [out, retval] IAudioDevice** audioDevice);
+	
+	HRESULT GetActiveAudioDevice([out, retval] IAudioDevice** audioDevice);
+	HRESULT ActivateDevice([in] BSTR deviceId, [out, retval] IAudioDevice** audioDevice);
+};
+
+[
+	uuid(D782CD72-5891-4183-83DB-F278AD7311A3)
+]
+interface IAudioManager : IUnknown
+{
+	HRESULT GetAudioInputController([out, retval] IAudioController** audioInputController);
+	HRESULT GetAudioOutputController([out, retval] IAudioController** audioOutputController);
+};
+
+[
+	uuid(3380f557-7865-455b-ada6-030481883722),
+	version(1.0),
+]
+library MyHomeApiLib
+{
+	importlib("stdole2.tlb");
+
+	[
+		uuid(79C63B90-058D-48FE-8F28-29A99DBF806D)
+	]
+	coclass MyHomeController
+	{
+		[default ]interface IMonitorManager;
+		interface IDesktopManager;
+		interface IClientFilter;
+		interface IAudioManager;
+	};
+};
+

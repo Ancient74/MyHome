@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView x:Name="currentView" xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyHomeApp.ActiveAudioDeviceSettingsView">
+    <ContentView.Content>
+        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" Direction="Column">
+            <Label Text="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=LabelText}" HorizontalOptions="Center" FontAttributes="Bold" FontSize="18"/>
+            <StackLayout>
+                <Label Text="{Binding Name}" HorizontalOptions="Center" FontSize="16"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ImageButton Padding="20,0,0,0" Command="{Binding ToggleMuteCommand}" Source="{Binding MuteIcon, Source={x:Reference currentView}}" BackgroundColor="Transparent" Grid.Column="0">
+                        <ImageButton.Style>
+                            <Style TargetType="ImageButton">
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="ImageButton" Binding="{Binding IsMuted}" Value="true">
+                                        <Setter Property="Source" Value="{Binding UnMuteIcon, Source={x:Reference currentView}}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ImageButton.Style>
+                    </ImageButton>
+                    <Slider Grid.Column="1" MinimumTrackColor="LightGray" MaximumTrackColor="LightGray" Value="{Binding VolumeLevel}" Minimum="0" Maximum="100" DragCompletedCommand="{Binding UpdateVolumeLevelCommand}"/>
+                </Grid>
+            </StackLayout>
+            <Button HorizontalOptions="Center" Margin="0,0,0,20" Text="Change device" Command="{Binding ChangeDeviceCommand}"/>
+        </FlexLayout>
+  </ContentView.Content>
+</ContentView>
+    

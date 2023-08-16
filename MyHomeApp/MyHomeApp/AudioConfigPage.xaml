@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyHomeApp"
+             x:Class="MyHomeApp.AudioConfigPage">
+    <NavigationPage.TitleView>
+        <Label Text="Audio config" HorizontalTextAlignment="Center" TextColor="White" FontSize="24"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" Margin="0,0,20,0">
+            <ScrollView>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <local:ActiveAudioDeviceSettingsView Grid.Row="0" MuteIcon="mute_icon.bmp" LabelText="Output device" UnMuteIcon="unmute_icon.bmp" BindingContext="{Binding ActiveOutputDevice}"/>
+                    <BoxView Grid.Row="1" HeightRequest="1" Color="LightGray"/>
+                    <local:ActiveAudioDeviceSettingsView Grid.Row="2" MuteIcon="mic_mute_icon.bmp" LabelText="Input device" UnMuteIcon="mic_unmute_icon.bmp" BindingContext="{Binding ActiveInputDevice}"/>
+                </Grid>
+            </ScrollView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>
+    

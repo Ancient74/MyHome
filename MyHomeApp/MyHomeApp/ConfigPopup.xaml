@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="MyHomeApp.ConfigPopup"
+             Size="300,300">
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <FlexLayout Grid.Row="0" Direction="Column" JustifyContent="SpaceAround">
+            <Label Text="Please enter ip address of My Home server" FontSize="15" FontAttributes="Bold"/>
+            <Entry Placeholder="IP Address" Text="{Binding IpAddress, Mode=TwoWay}" Keyboard="Text">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior IsValid="{Binding IsIpValid, Mode=OneWayToSource}" RegexPattern="^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$" Flags="ValidateOnValueChanging">
+                        <xct:TextValidationBehavior.InvalidStyle>
+                            <Style TargetType="Entry">
+                                <Setter Property="TextColor" Value="Red">
+                                </Setter>
+                            </Style>
+                        </xct:TextValidationBehavior.InvalidStyle>
+                    </xct:TextValidationBehavior>
+                    <xct:EventToCommandBehavior EventName="Completed" Command="{Binding ConfirmCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="Enter MAC address of PC that you want to be able to wake up" FontSize="15" FontAttributes="Bold"/>
+            <Entry Placeholder="MAC address" Text="{Binding MacAddress, Mode=TwoWay}" Keyboard="Text">
+                <Entry.Behaviors>
+                    <xct:TextValidationBehavior IsValid="{Binding IsMacValid, Mode=OneWayToSource}" RegexPattern="^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" Flags="ValidateOnValueChanging">
+                        <xct:TextValidationBehavior.InvalidStyle>
+                            <Style TargetType="Entry">
+                                <Setter Property="TextColor" Value="Red">
+                                </Setter>
+                            </Style>
+                        </xct:TextValidationBehavior.InvalidStyle>
+                    </xct:TextValidationBehavior>
+                    <xct:EventToCommandBehavior EventName="Completed" Command="{Binding ConfirmCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+        </FlexLayout>
+        <StackLayout Grid.Row="1" VerticalOptions="End" Padding="0,0,0,5">
+            <Button x:Name="confirmButton" Text="Confirm" Command="{Binding ConfirmCommand}"/>
+        </StackLayout>
+    </Grid>
+</xct:Popup>
+    

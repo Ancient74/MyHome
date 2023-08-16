@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:MyHomeApp"
+             x:Class="MyHomeApp.AddIotDevicePopup"
+             Size="300,400">
+    <xct:Popup.Resources>
+        <ResourceDictionary>
+            <local:ColorToSolidColorBrushConverter x:Key="colorToSolidColorBrushConverter" />
+        </ResourceDictionary>
+    </xct:Popup.Resources>
+    <FlexLayout JustifyContent="SpaceEvenly" Direction="Column" >
+        <Label Text="{Binding TitleText}" HorizontalOptions="Center" FlexLayout.AlignSelf="Center"/>
+        <Entry Placeholder="Name" Text="{Binding Name, Mode=TwoWay}" Keyboard="Text">
+            <Entry.Behaviors>
+                <xct:TextValidationBehavior MinimumLength="1">
+                    <xct:TextValidationBehavior.InvalidStyle>
+                        <Style TargetType="Entry">
+                            <Setter Property="TextColor" Value="Red">
+                            </Setter>
+                        </Style>
+                    </xct:TextValidationBehavior.InvalidStyle>
+                </xct:TextValidationBehavior>
+            </Entry.Behaviors>
+        </Entry>
+        <Entry Placeholder="Ip address" Text="{Binding IpAddress, Mode=TwoWay}" Keyboard="Text">
+            <Entry.Behaviors>
+                <xct:TextValidationBehavior IsValid="{Binding IsIpValid, Mode=OneWayToSource}" RegexPattern="^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$" Flags="ValidateOnValueChanging">
+                    <xct:TextValidationBehavior.InvalidStyle>
+                        <Style TargetType="Entry">
+                            <Setter Property="TextColor" Value="Red">
+                            </Setter>
+                        </Style>
+                    </xct:TextValidationBehavior.InvalidStyle>
+                </xct:TextValidationBehavior>
+            </Entry.Behaviors>
+        </Entry>
+        <Entry Placeholder="Port" Text="{Binding Port, Mode=TwoWay}" Keyboard="Numeric">
+            <Entry.Behaviors>
+                <xct:NumericValidationBehavior  IsValid="{Binding IsPortValid, Mode=OneWayToSource}" MinimumValue="0" MaximumValue="65535" MaximumDecimalPlaces="0" Flags="ValidateOnValueChanging">
+                    <xct:NumericValidationBehavior.InvalidStyle>
+                        <Style TargetType="Entry">
+                            <Setter Property="TextColor" Value="Red">
+                            </Setter>
+                        </Style>
+                    </xct:NumericValidationBehavior.InvalidStyle>
+                </xct:NumericValidationBehavior>
+            </Entry.Behaviors>
+        </Entry>
+        <StackLayout Orientation="Horizontal" FlexLayout.AlignSelf="Center">
+            <Button Text="Test connection" Command="{Binding TestConnectionCommand}"/>
+            <Ellipse WidthRequest="16" HeightRequest="16" Fill="{Binding Indicator, Converter={StaticResource colorToSolidColorBrushConverter}}" HorizontalOptions="Center" VerticalOptions="Center"/>
+        </StackLayout>
+        <Button Text="{Binding ButtonText}" Command="{Binding ConfirmCommand}"/>
+    </FlexLayout>
+</xct:Popup>

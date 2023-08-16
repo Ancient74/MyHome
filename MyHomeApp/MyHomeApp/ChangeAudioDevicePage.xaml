@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:MyHomeApp"
+             x:Class="MyHomeApp.ChangeDevicePage">
+    <NavigationPage.TitleView>
+        <Label Text="Select audio device" HorizontalTextAlignment="Center" TextColor="White" FontSize="24"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Text="{Binding LabelText}" VerticalOptions="Start" HorizontalOptions="Center" FontSize="18" FontAttributes="Bold" Padding="0,20,0,0" />
+            <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+                <ScrollView  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <ListView ItemsSource="{Binding Devices}" SeparatorVisibility="Default">
+                        <ListView.Behaviors>
+                            <xct:EventToCommandBehavior
+                                EventName="ItemTapped"
+                                Command="{Binding SelectCommand}" />
+                        </ListView.Behaviors>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <local:AudioDeviceSelectView BindingContext="{Binding}"/>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+            </RefreshView>
+            <Button Grid.Row="2" Text="Change device" VerticalOptions="End" Margin="20,0,20,20" Command="{Binding ChangeDeviceCommand}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
