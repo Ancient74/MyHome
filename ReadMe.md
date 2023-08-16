@@ -18,6 +18,7 @@ There should be server certificates in IotHome/data: *.crt and  *.key files in o
 
 Main page:
 
+
 ![photo_3_2023-08-16_11-54-45](https://github.com/Ancient74/MyHome/assets/44616207/0ea8f77f-4d51-4559-baf4-229ab934b297)
 
 Monitor config:
